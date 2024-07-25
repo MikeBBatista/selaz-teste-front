@@ -11,13 +11,17 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.1.0",
+    "@angular/cdk": "^18.1.2",
     "@angular/common": "^18.1.0",
     "@angular/compiler": "^18.1.0",
     "@angular/core": "^18.1.0",
     "@angular/forms": "^18.1.0",
+    "@angular/material": "^18.1.2",
     "@angular/platform-browser": "^18.1.0",
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
+    "@types/jsonwebtoken": "^9.0.6",
+    "jsonwebtoken": "^9.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -33,6 +37,8 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.5.2"
+    "miragejs": "^0.2.0-alpha.3",
+    "typescript": "~5.5.2",
+    "vite-plugin-node-polyfills": "^0.22.0"
   }
 }
