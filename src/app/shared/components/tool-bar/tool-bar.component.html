@@ -1,0 +1,21 @@
+<mat-toolbar class="toolbar">
+  <span>Se Planeje App</span>
+
+  <div>
+    <button mat-icon-button aria-label="Botão de menu" [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Lista de usuários</button>
+      <button mat-menu-item [routerLink]="'/task-list'" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Lista de tarefas</button>
+    </mat-menu>
+    <button mat-icon-button aria-label="Botão de logout" (click)="logout()">
+      <mat-icon
+      aria-hidden="false" 
+      aria-label="Deletar tarefa" 
+      fontIcon="logout">
+    </mat-icon>
+    </button>
+  </div>
+
+</mat-toolbar>

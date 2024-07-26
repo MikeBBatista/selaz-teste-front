@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'selaz-test';
+
+  verifyUser() {
+     return localStorage.getItem('token') ? true : false;
+  }
 }

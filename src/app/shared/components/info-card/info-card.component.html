@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="div-icons">
+    <mat-icon aria-hidden="false" aria-label="Editar tarefa" fontIcon="edit"></mat-icon>
+    <mat-icon 
+      aria-hidden="false" 
+      aria-label="Deletar tarefa" 
+      fontIcon="delete"
+      (click)="deleteTaskID(task.id)">
+    </mat-icon>
+  </div>
+  <div class="task-info" *ngIf="task">
+    <h2>{{ task.title }}</h2>
+    <h3>{{ task.description }}</h3>
+    <h3>Status: {{ getFormattedStatus() }}</h3>
+    <h3>Atribuido: {{ task.responsible }}</h3>
+    <h4>Data de criação: {{ formatISODate(task.createDate) }}</h4>
+    <h4>Data limite: {{ formatISODate(task.endDate) }}</h4>
+  </div>
+  <div class="user-info" *ngIf="user">
+    <h2>{{ user.username }}</h2>
+    <h3>{{ user.email }}</h3>
+    <h3>Status: {{ user.admin }}</h3>
+  </div>
+</div>

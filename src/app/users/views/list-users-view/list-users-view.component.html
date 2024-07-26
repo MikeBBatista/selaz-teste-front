@@ -1,0 +1,14 @@
+<div class="view-user">
+  <div class="head-view">
+    <h2>Total de usuários: {{ totalItems }}</h2>
+  </div>
+  <div>
+    <h2>{{ errorMessage }}</h2>
+  </div>
+  <div class="task-list">
+    <div class="div-card" *ngFor="let task of data">
+      <app-info-card [user]="task" (deleteUser)="openConfirmDialog($event)"></app-info-card>
+    </div>
+  </div>
+</div>
+<app-page-loading *ngIf="onLoad"></app-page-loading>

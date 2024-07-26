@@ -1,0 +1,20 @@
+.view-task {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .task-list {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 90%;
+  }
+  .div-filters {
+    display: flex;
+    width: 90%;
+    justify-content: end;
+
+    .form-field {
+      margin: 8px;
+    }
+  }
+}

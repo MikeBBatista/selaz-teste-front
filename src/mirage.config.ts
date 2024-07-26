@@ -1,4 +1,4 @@
-import { createServer, Model } from 'miragejs';
+import { createServer, Response, Model } from 'miragejs';
 
 export function makeServer({ environment = 'development' } = {}) {
   let server = createServer({
@@ -6,11 +6,96 @@ export function makeServer({ environment = 'development' } = {}) {
 
     models: {
       user: Model,
+      task: Model,
     },
 
     seeds(server) {
       server.create('user', { username: 'admin', password: 'admin123' } as object);
       server.create('user', { username: 'user', password: 'password' } as object);
+      server.create('task', { 
+        responsible: 'Mike Barcelos',
+        createDate: new Date('2024-07-20'),
+        status: 'pendente', 
+        endDate: new Date('2024-07-24'), 
+        title: 'Criar tela de login', 
+        description: 'Criar tela de login utilizando Angular' } as object);
+      server.create('task', { 
+        responsible: 'Gabriel Dellu',
+        createDate: new Date('2024-07-20'),
+        status: 'pendente',  
+        endDate: new Date('2024-07-29'),
+        title: 'Criar prototipo de tela de Login para ontem', 
+        description: 'Criar prototipo da tela de login no Figma' } as object);
+        server.create('task', { 
+          responsible: 'Gabriel Dellu',
+          createDate: new Date('2024-07-20'),
+          status: 'pendente',  
+          endDate: new Date('2024-07-29'),
+          title: 'Criar prototipo de tela de Login para ontem', 
+          description: 'Criar prototipo da tela de login no Figma' } as object);
+          server.create('task', { 
+            responsible: 'Gabriel Dellu',
+            createDate: new Date('2024-07-20'),
+            status: 'pendente',  
+            endDate: new Date('2024-07-30'),
+            title: 'Criar prototipo de tela de Login para ontem', 
+            description: 'Criar prototipo da tela de login no Figma' } as object);
+            server.create('task', { 
+              responsible: 'Gabriel Dellu',
+              createDate: new Date('2024-07-20'),
+              status: 'em andamento',  
+              endDate: new Date('2024-07-28'),
+              title: 'Criar prototipo de tela de Login para ontem', 
+              description: 'Criar prototipo da tela de login no Figma' } as object);
+              server.create('task', { 
+                responsible: 'Gabriel Dellu',
+                createDate: new Date('2024-07-20'),
+                status: 'concluída',  
+                endDate: new Date('2024-07-24'),
+                title: 'Criar prototipo de tela de Login para ontem', 
+                description: 'Criar prototipo da tela de login no Figma' } as object);
+                server.create('task', { 
+                  responsible: 'Mike Barcelos',
+                  createDate: new Date('2024-07-20'),
+                  status: 'pendente', 
+                  endDate: new Date('2024-07-24'), 
+                  title: 'Criar tela de login', 
+                  description: 'Criar tela de login utilizando Angular' } as object);
+                server.create('task', { 
+                  responsible: 'Gabriel Dellu',
+                  createDate: new Date('2024-07-20'),
+                  status: 'pendente',  
+                  endDate: new Date('2024-07-29'),
+                  title: 'Criar prototipo de tela de Login para ontem', 
+                  description: 'Criar prototipo da tela de login no Figma' } as object);
+                  server.create('task', { 
+                    responsible: 'Gabriel Dellu',
+                    createDate: new Date('2024-07-20'),
+                    status: 'pendente',  
+                    endDate: new Date('2024-07-29'),
+                    title: 'Criar prototipo de tela de Login para ontem', 
+                    description: 'Criar prototipo da tela de login no Figma' } as object);
+                    server.create('task', { 
+                      responsible: 'Gabriel Dellu',
+                      createDate: new Date('2024-07-20'),
+                      status: 'pendente',  
+                      endDate: new Date('2024-07-30'),
+                      title: 'Criar prototipo de tela de Login para ontem', 
+                      description: 'Criar prototipo da tela de login no Figma' } as object);
+                      server.create('task', { 
+                        responsible: 'Gabriel Dellu',
+                        createDate: new Date('2024-07-20'),
+                        status: 'em andamento',  
+                        endDate: new Date('2024-07-28'),
+                        title: 'Criar prototipo de tela de Login para ontem', 
+                        description: 'Criar prototipo da tela de login no Figma' } as object);
+                        server.create('task', { 
+                          responsible: 'Gabriel Dellu',
+                          createDate: new Date('2024-07-20'),
+                          status: 'concluída',  
+                          endDate: new Date('2024-07-24'),
+                          title: 'Criar prototipo de tela de Login para ontem', 
+                          description: 'Criar prototipo da tela de login no Figma' } as object);
     },
 
     routes() {
@@ -32,6 +117,46 @@ export function makeServer({ environment = 'development' } = {}) {
           };
         } else {
           return { error: 'Usuário ou senha incorretos' };
+        }
+      });
+
+      this.get('/tasks', (schema, request) => {
+        const { page = 1, perPage = 10, status = '', sort = 'asc' } = request.queryParams;
+        let statusList: string[] = [];
+        if (status !== '') {
+          statusList = (status as string)?.split(',');
+        }
+        const pageNumber = parseInt(page as string, 10);
+        const perPageNumber = parseInt(perPage as string, 10);
+        const start = (pageNumber - 1) * perPageNumber;
+        const end = start + perPageNumber;
+
+        let tasks = schema.db['tasks'];
+        if (statusList?.length && statusList.length > 0) {
+          tasks = schema.db['tasks'].where((task: { status: string; }) => statusList.includes(task.status))
+        }
+        const paginatedTasks = tasks.slice(start, end).sort((a, b) => {
+          if (sort === 'asc') {
+            return a.endDate.getTime() - b.endDate.getTime();
+          } else {
+            return b.endDate.getTime() - a.endDate.getTime();
+          }
+        });
+        return {
+          tasks: paginatedTasks,
+          total: tasks.length,
+        };
+      });
+
+      this.delete('/tasks/:id', (schema, request) => {
+        let id = request.params['id'];
+        let task = schema.find('task', id);
+        console.log('teste')
+        if (task) {
+          task.destroy();
+          return new Response(204, {}, {});
+        } else {
+          return new Response(404, {}, { error: 'Tarefa não encontrada' });
         }
       });
     },
