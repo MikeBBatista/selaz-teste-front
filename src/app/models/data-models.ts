@@ -1,8 +1,8 @@
 export interface User {
   id: number;
   username: string;
-  admin: boolean;
-  password: string;
+  admin?: boolean;
+  password?: string;
 }
 
 export interface listUsers {
@@ -18,7 +18,7 @@ export interface Task {
   endDate: Date;
   status: string;
   responsible: string;
-  responsibleId: number;
+  responsibleName?: string
 }
 
 export interface listTasks {

@@ -31,7 +31,7 @@
     <h2>{{ task.title }}</h2>
     <h3>{{ task.description }}</h3>
     <h3>Status: {{ getFormattedStatus() }}</h3>
-    <h3>Atribuido: {{ task.responsible }}</h3>
+    <h3>Responsável: {{ task.responsibleName }}</h3>
     <h4>Data de criação: {{ formatISODate(task.createDate) }}</h4>
     <h4>Data limite: {{ formatISODate(task.endDate) }}</h4>
   </div>

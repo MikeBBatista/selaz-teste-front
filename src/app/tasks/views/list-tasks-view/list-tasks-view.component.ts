@@ -5,8 +5,9 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { appService } from '../../../app.service';
-import { Task } from '../../../models/data-models';
+import { Task, User } from '../../../models/data-models';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { TaskRegistrationComponent } from '../../components/task-registration/task-registration.component';
 
 @Component({
   selector: 'app-list-tasks-view',
@@ -22,18 +23,88 @@ export class ListTasksViewComponent implements OnInit, OnDestroy {
   public totalItems: number = 0;
   taskStatus = new FormControl('');
   public filterStatus: string[] = [''];
+  public filterUser: string[] = [''];
   public onLoad: boolean = true;
   taskStatusList: string[] = ['PENDENTE', 'EM ANDAMENTO', 'CONCLUÍDA'];
   public errorMessage!: string;
+  public sucessMessage!: string;
+  public users: User[] = []
+  public usersMap: { [key: string]: string } = {};
   
   constructor(
     public dialog: MatDialog,
+    public registraitonDialog: MatDialog,
     private projectService: appService, 
     private router: Router,
   ) { }
 
   ngOnInit() {
-    this.getTasks(['']);
+    this.getUsers();
+    this.getTasks();
+  }
+
+  getUsers() {
+    this.projectService.getAllusers().subscribe({
+      next: (res) => {
+        this.users = res;
+        this.usersMap = res.reduce((map, user) => {
+          map[user.id] = user.username; // Mapeia ID para nome
+          return map;
+        }, {} as { [key: string]: string })
+      },
+      error: () => {
+        this.errorMessage = 'Ocorreu um erro ao carregar os usuários. Por favor, contate a equipe de suporte.';
+        return throwError(() => new Error(this.errorMessage))
+      }
+    })
+  }
+
+  openRegistrationDialog(task?: Task): void {
+    const dialogRef = this.registraitonDialog.open(TaskRegistrationComponent, {
+      width: '348px',
+      data: { task: task ? task : null, users: this.users }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (task) {
+          this.updateTask(result, task.id)
+        } else {
+          this.createTask(result);
+        }
+      }
+    });
+  }
+
+  createTask(task: Task) {
+    task.createDate = new Date();
+    this.projectService.createTask(task).subscribe({
+      next: () => {
+        this.sucessMessage = 'Tarefa criada com sucesso!';
+        this.page = 1;
+        this.getTasks();
+      },
+      error: () => {
+        this.errorMessage = 'Ocorreu um erro ao criar a tarefa. Por favor, contate a equipe de suporte.';
+        this.onLoad = false;
+        return throwError(() => new Error(this.errorMessage))
+      }
+    })
+  }
+
+  updateTask(task: Task, userId: number) {
+    this.projectService.updateTask(userId, task).subscribe({
+      next: () => {
+        this.sucessMessage = 'Informações da tarefa atualizadas com sucesso!';
+        this.page = 1;
+        this.getTasks();
+      },
+      error: () => {
+        this.errorMessage = 'Ocorreu um erro ao atualizar a tarefa. Por favor, contate a equipe de suporte.';
+        this.onLoad = false;
+        return throwError(() => new Error(this.errorMessage))
+      }
+    })
   }
   
   openConfirmDialog(taskId: number): void {
@@ -50,22 +121,26 @@ export class ListTasksViewComponent implements OnInit, OnDestroy {
 
   deleteTask(taskId: number): void {
     this.projectService.deleteTask(taskId).subscribe(() => {
-      console.log(`Task with ID ${taskId} deleted successfully.`);
       this.page = 1;
-      this.getTasks(this.filterStatus);
+      this.getTasks();
     });
   }
 
-  getTasks(status: string[]) {
+  getTasks() {
     this.onLoad = true;
     this.subscriptions
     .push(
-      this.projectService.getTasks(this.page, status, this.sortDirection).subscribe( {
+      this.projectService.getTasks(this.page, this.filterStatus, this.sortDirection, this.filterUser).subscribe( {
         next: (res) => {
+          let tasks = res.tasks.map(task => ({
+            ...task,
+            responsibleName: this.usersMap[task.responsible]
+          }));
+          console.log(tasks);
           if(this.page === 1) {
-            this.data = res.tasks;
+            this.data = tasks;
           } else {
-            this.data = [...this.data, ...res.tasks];
+            this.data = [...this.data, ...tasks];
           }
           this.totalItems = res.total;
           this.onLoad = false;
@@ -82,7 +157,13 @@ export class ListTasksViewComponent implements OnInit, OnDestroy {
   filterByStatus(event: any) {
     this.filterStatus = event.value ? event.value : event;
     this.page = 1;
-    this.getTasks(this.filterStatus);
+    this.getTasks();
+  }
+
+  filterByUser(event: any) {
+    this.filterUser = event.value ? event.value : event;
+    this.page = 1;
+    this.getTasks();
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -94,7 +175,7 @@ export class ListTasksViewComponent implements OnInit, OnDestroy {
     if (scrollPercentage >= 0.99) {
       if (!this.onLoad && this.data.length !== this.totalItems) {
         this.page += 1;
-        this.getTasks(this.filterStatus);
+        this.getTasks();
       }
     }
   }

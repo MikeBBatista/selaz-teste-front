@@ -8,14 +8,46 @@
     flex-wrap: wrap;
     max-width: 90%;
   }
+  .head-view {
+    h4 {
+      font-weight: bold;
+    }
+  }
+
+  .total-itens {
+    width: 100%;
+    margin-left: 24px;
+
+    span {
+      font-size: 16px;
+    }
+  }
   .div-filters {
     display: flex;
     margin-right: 24px;
-    width: 100%;
+    width: 90%;
     justify-content: end;
 
     .form-field {
       margin: 8px;
+      width: 184px;
+    }
+
+    button {
+      font-size: 18px;
+      margin-right: 24px;
+      height: 56px;
+      background-color: #f2f2f2;
+      color: black;
+      margin: 8px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .div-filters {
+      flex-direction: column;
+      justify-content: end;
+      width: 60%;
     }
   }
 }

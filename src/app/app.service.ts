@@ -3,7 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 
 import { environment } from '../enviroments/environment'
-import { listTasks, listUsers, User } from './models/data-models';
+import { listTasks, listUsers, Task, User } from './models/data-models';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,15 @@ export class appService {
     .set('page', page.toString())
     
     return this.httpClient.get<listUsers>(`${this.apiUrl}/users`, {params}).pipe(
+      catchError ((error: HttpErrorResponse) => {
+        this.manageError(error);
+        return throwError(() => new Error(this.manageError(error)))
+      })
+    );
+  }
+
+  getAllusers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.apiUrl}/All-users`).pipe(
       catchError ((error: HttpErrorResponse) => {
         this.manageError(error);
         return throwError(() => new Error(this.manageError(error)))
@@ -56,12 +65,14 @@ export class appService {
     );
   }
 
-  getTasks(page: number, status: string[], sortDirection: string): Observable<listTasks> {
+  getTasks(page: number, status: string[], sortDirection: string, userId: string[]): Observable<listTasks> {
     const statusParam = status.join(',').toLowerCase();
+    const userIdParam = userId.join(',');
     let params = new HttpParams()
     .set('page', page.toString())
     .set('status',statusParam)
-    .set('sort',sortDirection);
+    .set('sort',sortDirection)
+    .set('responsible', userIdParam);
     
     return this.httpClient.get<listTasks>(`${this.apiUrl}/tasks`, {params}).pipe(
       catchError ((error: HttpErrorResponse) => {
@@ -69,6 +80,24 @@ export class appService {
         return throwError(() => new Error(this.manageError(error)))
       })
     );
+  }
+
+  createTask(task: Task): Observable<any> {
+    return this.httpClient.post<any>(`${this.apiUrl}/task`, task).pipe(
+      catchError ((error: HttpErrorResponse) => {
+        this.manageError(error);
+        return throwError(() => new Error(this.manageError(error)));
+      })
+    );;
+  }
+
+  updateTask(id: number, task: any): Observable<any> {
+    return this.httpClient.put<any>(`${this.apiUrl}/task/${id}`, task).pipe(
+      catchError ((error: HttpErrorResponse) => {
+        this.manageError(error);
+        return throwError(() => new Error(this.manageError(error)));
+      })
+    );;
   }
 
   deleteTask(id: number): Observable<void> {

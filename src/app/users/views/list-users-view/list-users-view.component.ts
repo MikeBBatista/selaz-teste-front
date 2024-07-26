@@ -45,7 +45,6 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
   }
 
   updateUser(user: User, userId: number) {
-    console.log(user);
     this.projectService.updateUser(userId, user).subscribe({
       next: (res) => {
         this.sucessMessage = 'Informações de usuário atualizadas com sucesso!';
@@ -62,7 +61,6 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
   deleteUser(userId: number): void {
     this.projectService.deleteUser(userId).subscribe({
       next: () => {
-        console.log(`User with ID ${userId} deleted successfully.`);
         this.page = 1;
         this.getUsers();
       },
@@ -80,7 +78,6 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
     .push(
       this.projectService.getUsers(this.page).subscribe( {
         next: (res) => {
-          console.log(res);
           if(this.page === 1) {
             this.data = res.users;
           } else {

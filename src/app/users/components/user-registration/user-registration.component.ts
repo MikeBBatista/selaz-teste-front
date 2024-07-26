@@ -38,9 +38,7 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registrationForm);
     if (this.registrationForm.valid) {
-      console.log('Form Submitted!', this.registrationForm.value);
       this.dialogRef.close(this.registrationForm.value);
     }
   }

@@ -19,12 +19,13 @@ export class InfoCardComponent {
    }
  
    formatISODate(isoDateString: Date): string {
-     const date = new Date(isoDateString);
-     const day = date.getUTCDate().toString().padStart(2, '0');
-     const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-     const year = date.getUTCFullYear();
-   
-     return `${day}/${month}/${year}`;
+    const date = new Date(isoDateString);
+
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Janeiro é 0
+    const year = date.getUTCFullYear();
+    
+    return `${day}/${month}/${year}`;
    }
 
    editTaskInfo(task: Task) {
@@ -36,6 +37,7 @@ export class InfoCardComponent {
    }
  
    deleteTaskId(taskId: number) {
+    console.log(this.task)
      this.deleteTask.emit(taskId);
    }
 

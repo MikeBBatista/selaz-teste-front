@@ -10,7 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [],
@@ -39,6 +39,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatMenuModule,
     MatDatepickerModule,
     MatNativeDateModule
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
   ]
 })
 export class MaterialModule { }

@@ -1,6 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { User } from '../../../models/data-models';
 
 @Component({
   selector: 'app-task-registration',
@@ -14,12 +15,11 @@ export class TaskRegistrationComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<TaskRegistrationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { task?: any }
+    @Inject(MAT_DIALOG_DATA) public data: { task?: any, users: User[] }
   ) {
     this.registrationForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      createDate: ['', Validators.required],
       endDate: ['', Validators.required],
       status: ['', Validators.required],
       responsible: ['', Validators.required]
@@ -34,9 +34,7 @@ export class TaskRegistrationComponent {
   }
 
   onSubmit() {
-    console.log(this.registrationForm);
     if (this.registrationForm.valid) {
-      console.log('Form Submitted!', this.registrationForm.value);
       this.dialogRef.close(this.registrationForm.value);
     }
   }
