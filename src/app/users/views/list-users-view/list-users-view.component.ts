@@ -30,11 +30,9 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     let localUser = localStorage.getItem('user')
-    console.log(localStorage.getItem('user'));
     if (localUser !== null) {
       this.storageUser = JSON.parse(localUser);
       this.permission = this.storageUser.admin === true ? true : false;
-      console.log(this.permission);
     }
     this.checkPermission();
   }
@@ -133,7 +131,6 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
   }
 
   openRegistrationDialog(user?: User): void {
-    console.log(this.permission);
     const dialogRef = this.registraitonDialog.open(UserRegistrationComponent, {
       width: '348px',
       data: { user: user ? { ...user, confirmPassword: ''} : null, permission: this.permission }

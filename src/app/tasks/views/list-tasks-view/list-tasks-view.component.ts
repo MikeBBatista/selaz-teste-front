@@ -137,7 +137,6 @@ export class ListTasksViewComponent implements OnInit, OnDestroy {
             ...task,
             responsibleName: this.usersMap[task.responsible]
           }));
-          console.log(tasks);
           if(this.page === 1) {
             this.data = tasks;
           } else {

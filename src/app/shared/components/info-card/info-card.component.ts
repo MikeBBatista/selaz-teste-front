@@ -39,7 +39,6 @@ export class InfoCardComponent {
    }
  
    deleteTaskId(taskId: number) {
-    console.log(this.task)
      this.deleteTask.emit(taskId);
    }
 

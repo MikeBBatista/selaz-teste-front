@@ -23,7 +23,6 @@ export function makeServer({ environment = 'development' } = {}) {
         let user = schema.db['users'].findBy({ username });
 
         if (user && user.password === password) {
-          console.log(user.admin, user)
           let token = 'secret-token';
           return {
             token,
@@ -123,7 +122,6 @@ export function makeServer({ environment = 'development' } = {}) {
               userList.includes(task.responsible)
             );
           }
-          console.log(filteredTasks);
           const paginatedTasks = filteredTasks.slice(start, end).sort((a: any, b: any) => {
             const dateA = new Date(a.endDate);
             const dateB = new Date(b.endDate); 
