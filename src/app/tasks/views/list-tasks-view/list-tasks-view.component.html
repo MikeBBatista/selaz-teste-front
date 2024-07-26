@@ -2,39 +2,47 @@
   <div class="head-view">
     <h4>Lista de tarefas</h4>
   </div>
-  <div class="div-filters">
-    <button mat-button (click)="openRegistrationDialog()">
-      <mat-icon 
-        aria-hidden="false" 
-        aria-label="Deletar tarefa" 
-        fontIcon="add_circle">
-      </mat-icon>
-      Adicionar Tarefa
-    </button>
-    <mat-form-field class="form-field">
-      <mat-label>Responsável</mat-label>
-      <mat-select [formControl]="taskStatus" (selectionChange)="filterByUser($event)" multiple>
-        @for (user of users; track user) {
-          <mat-option [value]="user.id">{{user.username}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="form-field">
-      <mat-label>Status</mat-label>
-      <mat-select [formControl]="taskStatus" (selectionChange)="filterByStatus($event)" multiple>
-        @for (status of taskStatusList; track status) {
-          <mat-option [value]="status">{{status}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="form-field">
-      <mat-label>Ordem por data de fim</mat-label>
-      <mat-select [(value)]="sortDirection" (selectionChange)="filterByStatus(filterStatus)">
-        <mat-option value="asc">Ascendente</mat-option>
-        <mat-option value="desc">Descendente</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="filter-text">
+    <span>Filtros</span>
   </div>
+  <div class="div-filters">
+    <div>
+      <mat-form-field class="form-field">
+        <mat-label>Responsável</mat-label>
+        <mat-select [formControl]="taskStatus" (selectionChange)="filterByUser($event)" multiple>
+          @for (user of users; track user) {
+            <mat-option [value]="user.id">{{user.username}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Status</mat-label>
+        <mat-select [formControl]="taskStatus" (selectionChange)="filterByStatus($event)" multiple>
+          @for (status of taskStatusList; track status) {
+            <mat-option [value]="status">{{status}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Ordem por data de fim</mat-label>
+        <mat-select [(value)]="sortDirection" (selectionChange)="filterByStatus(filterStatus)">
+          <mat-option value="asc">Ascendente</mat-option>
+          <mat-option value="desc">Descendente</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-button (click)="openRegistrationDialog()">
+        <mat-icon 
+          aria-hidden="false" 
+          aria-label="Deletar tarefa" 
+          fontIcon="add_circle">
+        </mat-icon>
+        Adicionar Tarefa
+      </button>
+    </div>
+  </div>
+
   <div>
     <h2>{{ errorMessage }}</h2>
   </div>

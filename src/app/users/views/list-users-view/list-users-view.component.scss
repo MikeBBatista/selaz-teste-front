@@ -24,6 +24,15 @@
     justify-content: end;
   }
 
+  .total-itens {
+    width: 100%;
+    margin-left: 24px;
+
+    span {
+      font-size: 16px;
+    }
+  }
+
   button {
     font-size: 18px;
     margin-right: 24px;
