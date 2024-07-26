@@ -10,8 +10,8 @@ export function makeServer({ environment = 'development' } = {}) {
     },
 
     seeds(server) {
-      server.create('user', { username: 'admin', password: 'admin123', email: 'admin@hotmail.com', admin: true } as object);
-      server.create('user', { username: 'user', password: 'password', email: 'user@hotmail.com', admin: false } as object);
+      server.create('user', { username: 'admin', password: 'admin123', admin: true } as object);
+      server.create('user', { username: 'user', password: 'user123', admin: false } as object);
     },
 
     routes() {
@@ -23,12 +23,14 @@ export function makeServer({ environment = 'development' } = {}) {
         let user = schema.db['users'].findBy({ username });
 
         if (user && user.password === password) {
+          console.log(user.admin, user)
           let token = 'secret-token';
           return {
             token,
             user: {
               id: user.id,
               username: user.username,
+              admin: user.admin
             }
           };
         } else {
@@ -54,6 +56,15 @@ export function makeServer({ environment = 'development' } = {}) {
       this.get('/All-users', (schema, request) => {
         let users = schema.db['users'];
         return users;
+      });
+
+      this.get('/users/:id', (schema, request) => {
+        let id = request.params['id'];
+        let user = schema.find('user', id);
+        return {
+          users: [user],
+          total: 1,
+        };
       });
 
       this.post('/users', (schema, request) => {

@@ -19,6 +19,8 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
   public totalItems: number = 0;
   public onLoad: boolean = false;
   private subscriptions: Subscription[] = [];
+  public storageUser: any;
+  public permission: boolean = false;
 
   constructor(
     public registraitonDialog: MatDialog, 
@@ -27,12 +29,46 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
   ) {}
 
   ngOnInit() {
-    this.getUsers();
+    let localUser = localStorage.getItem('user')
+    console.log(localStorage.getItem('user'));
+    if (localUser !== null) {
+      this.storageUser = JSON.parse(localUser);
+      this.permission = this.storageUser.admin === true ? true : false;
+      console.log(this.permission);
+    }
+    this.checkPermission();
+  }
+
+  checkPermission() {
+    if (this.storageUser.admin === false) {
+      this.getUserById(this.storageUser.id);
+    } else {
+      this.getUsers();
+    }
+  }
+
+  getUserById(userId: number) {
+    this.onLoad = true;
+    this.subscriptions
+    .push(
+      this.projectService.getUserById(userId).subscribe( {
+        next: (res) => {
+          this.data = res.users;
+          this.totalItems = 1;
+          this.onLoad = false;
+        },
+        error: () => {
+          this.errorMessage = 'Ocorreu um erro ao carregar os usuários. Por favor, contate a equipe de suporte.';
+          this.onLoad = false;
+          return throwError(() => new Error(this.errorMessage))
+        }
+      })
+    );
   }
 
   createUser(user: User) {
     this.projectService.createUser(user).subscribe({
-      next: (res) => {
+      next: () => {
         this.sucessMessage = 'Usuário criado com sucesso!';
         this.getUsers();
       },
@@ -46,9 +82,9 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
 
   updateUser(user: User, userId: number) {
     this.projectService.updateUser(userId, user).subscribe({
-      next: (res) => {
+      next: () => {
         this.sucessMessage = 'Informações de usuário atualizadas com sucesso!';
-        this.getUsers();
+        this.checkPermission();
       },
       error: () => {
         this.errorMessage = 'Ocorreu um erro ao atualizar o usuário. Por favor, contate a equipe de suporte.';
@@ -61,6 +97,7 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
   deleteUser(userId: number): void {
     this.projectService.deleteUser(userId).subscribe({
       next: () => {
+        this.sucessMessage = 'Usuário excluído com sucesso!'
         this.page = 1;
         this.getUsers();
       },
@@ -96,9 +133,10 @@ export class ListUsersViewComponent implements OnInit, OnDestroy{
   }
 
   openRegistrationDialog(user?: User): void {
+    console.log(this.permission);
     const dialogRef = this.registraitonDialog.open(UserRegistrationComponent, {
       width: '348px',
-      data: { user: user ? { ...user, confirmPassword: '' } : null }
+      data: { user: user ? { ...user, confirmPassword: ''} : null, permission: this.permission }
     });
 
     dialogRef.afterClosed().subscribe(result => {

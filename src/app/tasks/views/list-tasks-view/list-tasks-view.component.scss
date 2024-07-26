@@ -51,6 +51,13 @@
     }
   }
 
+  .error-message {
+    color: red;
+  }
+  .sucess-message {
+    color: green;
+  }
+
   @media (max-width: 600px) {
     .div-filters {
       flex-direction: column;

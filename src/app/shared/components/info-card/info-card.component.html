@@ -6,7 +6,8 @@
       fontIcon="edit"
       (click)="editTaskInfo(task)">
     </mat-icon>
-    <mat-icon 
+    <mat-icon
+      *ngIf="admin"
       aria-hidden="false" 
       aria-label="Deletar tarefa" 
       fontIcon="delete"
@@ -20,7 +21,8 @@
       fontIcon="edit"
       (click)="editUserInfo(user)">
     </mat-icon>
-    <mat-icon 
+    <mat-icon
+      *ngIf="checkPermission(user.id)"
       aria-hidden="false" 
       aria-label="Deletar usuário" 
       fontIcon="delete"

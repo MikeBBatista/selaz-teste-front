@@ -123,6 +123,7 @@ export class ListTasksViewComponent implements OnInit, OnDestroy {
     this.projectService.deleteTask(taskId).subscribe(() => {
       this.page = 1;
       this.getTasks();
+      this.sucessMessage = 'Tarefa excluída com sucesso!'
     });
   }
 

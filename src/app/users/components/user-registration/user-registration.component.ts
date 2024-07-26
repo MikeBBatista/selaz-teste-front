@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 
 @Component({
@@ -15,13 +15,13 @@ export class UserRegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<UserRegistrationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user?: any }
+    @Inject(MAT_DIALOG_DATA) public data: { user?: any, permission: boolean }
   ) {
     this.registrationForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-      admin: ['', Validators.required],
+      admin: new FormControl({value: '', disabled: !this.data.permission}, Validators.required),
     }, { validators: [this.passwordMatchValidator] });
   }
 

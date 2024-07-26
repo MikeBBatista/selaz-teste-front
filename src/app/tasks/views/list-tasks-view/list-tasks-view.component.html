@@ -42,16 +42,20 @@
       </button>
     </div>
   </div>
-
   <div>
-    <h2>{{ errorMessage }}</h2>
+    <span class="error-message">{{ errorMessage }}</span>
+    <span class="sucess-message">{{ sucessMessage }}</span>
   </div>
   <div class="task-list">
     <div class="total-itens">
       <span>Total de tarefas: {{ totalItems }}</span>
     </div>
     <div class="div-card" *ngFor="let task of data">
-      <app-info-card [task]="task" (deleteTask)="openConfirmDialog($event)" (editTask)="openRegistrationDialog($event)"></app-info-card>
+      <app-info-card 
+        [task]="task" 
+        (deleteTask)="openConfirmDialog($event)" 
+        (editTask)="openRegistrationDialog($event)">
+      </app-info-card>
     </div>
   </div>
 </div>

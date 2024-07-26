@@ -20,7 +20,9 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap(response => {
         if (response && response.token) {
+          const myObjectString = JSON.stringify(response.user);
           localStorage.setItem('token', response.token);
+          localStorage.setItem('user', myObjectString);
           this.tokenSubject.next(response.token);
         }
       })
@@ -29,6 +31,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.tokenSubject.next(null);
   }
 

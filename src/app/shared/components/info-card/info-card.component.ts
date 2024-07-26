@@ -11,6 +11,8 @@ export class InfoCardComponent {
   @Output() deleteTask: EventEmitter<any> = new EventEmitter();
   @Output() editTask: EventEmitter<any> = new EventEmitter();
   @Input() user!: User;
+  @Input() admin: boolean = false;
+  @Input() userId!: number;
   @Output() deleteUser: EventEmitter<any> = new EventEmitter();
   @Output() editUser: EventEmitter<any> = new EventEmitter(); 
  
@@ -43,5 +45,13 @@ export class InfoCardComponent {
 
    deleteUserId(userId: number) {
     this.deleteUser.emit(userId);
+  }
+
+  checkPermission(userId: number) {
+    if (this.userId == userId) {
+      return false
+    } else {
+      return this.admin
+    }
   }
 }

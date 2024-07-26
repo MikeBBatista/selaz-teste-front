@@ -29,6 +29,15 @@ export class appService {
     );
   }
 
+  getUserById(id: number): Observable<listUsers> {
+    return this.httpClient.get<listUsers>(`${this.apiUrl}/users/${id}`).pipe(
+      catchError ((error: HttpErrorResponse) => {
+        this.manageError(error);
+        return throwError(() => new Error(this.manageError(error)))
+      })
+    );
+  }
+
   getAllusers(): Observable<User[]> {
     return this.httpClient.get<User[]>(`${this.apiUrl}/All-users`).pipe(
       catchError ((error: HttpErrorResponse) => {

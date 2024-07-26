@@ -2,9 +2,9 @@
   <div class="head-view">
     <h4>Lista de usuários</h4>
   </div>
-  <div class="user-button">
+  <div class="user-button" *ngIf="permission">
     <button mat-button (click)="openRegistrationDialog()">
-      <mat-icon 
+      <mat-icon
         aria-hidden="false" 
         aria-label="Deletar tarefa" 
         fontIcon="add_circle">
@@ -13,7 +13,8 @@
     </button>
   </div>
   <div>
-    <h2>{{ errorMessage }}</h2>
+    <span class="error-message">{{ errorMessage }}</span>
+    <span class="sucess-message">{{ sucessMessage }}</span>
   </div>
   <div class="user-list">
     <div class="total-itens">
@@ -21,7 +22,9 @@
     </div>
     <div class="div-card" *ngFor="let user of data">
       <app-info-card 
-        [user]="user" 
+        [user]="user"
+        [userId]="storageUser.id"
+        [admin] ="permission"
         (deleteUser)="openConfirmDialog($event)"
         (editUser)="openRegistrationDialog($event)">
       </app-info-card>
