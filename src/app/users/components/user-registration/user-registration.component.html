@@ -34,7 +34,7 @@
     </mat-form-field>
 
     <div mat-dialog-actions>
-      <button mat-button (click)="onCancel()">Cancelar</button>
+      <button mat-button type="button" (click)="onCancel()">Cancelar</button>
       <button mat-button type="submit" [disabled]="registrationForm.invalid">
         {{isEditing ? 'Salvar Alterações' : 'Cadastrar'}}
       </button>

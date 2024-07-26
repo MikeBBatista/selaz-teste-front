@@ -1,6 +1,6 @@
 <div class="view-user">
   <div class="head-view">
-    <h2>Total de usuários: {{ totalItems }}</h2>
+    <h2>Lista de usuários</h2>
   </div>
   <div class="user-button">
     <button mat-button (click)="openRegistrationDialog()">
@@ -14,6 +14,9 @@
   </div>
   <div>
     <h2>{{ errorMessage }}</h2>
+  </div>
+  <div class="head-view">
+    <h2>Total de usuários: {{ totalItems }}</h2>
   </div>
   <div class="user-list">
     <div class="div-card" *ngFor="let user of data">
