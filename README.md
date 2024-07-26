@@ -3,13 +3,6 @@
   
  <h1 align="center"> Exercício com API pública da Marvel</h1>
   
-  <p align="center">
- <a href="#-visão-geral-do-projeto-clipboard"> Visão Geral do Projeto</a> •
- <a href="#-pré-requisitos-computer">Pré Requisitos</a> •
- <a href="#-instruções-de-instalação-dart">Instruções de Instalação</a> •
- <a href="#-guia-de-uso-book">Guia de Uso</a>
-</p>
-  
   ---
   
   <h2> Autor :necktie: </h2>
@@ -39,6 +32,8 @@
     <li style="font-family:roboto;">Permitir filtrar as tarefas por usuário e por status</li>
     <li style="font-family:roboto;">Vincular uma tarefa a um usuário</li>
   </ul>
+
+  <h2>IMPORTANTE: VOCÊ PODE LOGAR NO PROEJTO UTILIZANDO O LOGIN: "admin" e senha: "admin123" PARA LOGAR COMO ADMIN OU login: "user" e senha: "user123" PARA LOGAR COMO USUARIO COMUM.</h2>
   
   ---
   
