@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>{{isEditing ? 'Editar Usuário' : 'Cadastro de Usuário'}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" />
+      <mat-error *ngIf="registrationForm.get('username')?.invalid">
+        O campo username é obrigatório.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error *ngIf="registrationForm.get('password')?.invalid">
+        A senha deve ter pelo menos 6 caracteres.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput type="password" formControlName="confirmPassword" />
+      <mat-error *ngIf="registrationForm.hasError('mismatch')">
+        As senhas não coincidem.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Admin</mat-label>
+      <mat-select formControlName="admin">
+        <mat-option value="false">Não</mat-option>
+        <mat-option value="true">Sim</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancelar</button>
+      <button mat-button type="submit" [disabled]="registrationForm.invalid">
+        {{isEditing ? 'Salvar Alterações' : 'Cadastrar'}}
+      </button>
+    </div>
+  </form>
+</div>

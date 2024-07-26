@@ -1,9 +1,13 @@
 export interface User {
   id: number;
   username: string;
-  email: string;
   admin: boolean;
   password: string;
+}
+
+export interface listUsers {
+  users: User[],
+  total: number,
 }
 
 export interface Task {

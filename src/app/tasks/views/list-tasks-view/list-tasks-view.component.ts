@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, throwError } from 'rxjs';
 import { FormControl } from '@angular/forms';
@@ -13,7 +13,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
   templateUrl: './list-tasks-view.component.html',
   styleUrl: './list-tasks-view.component.scss'
 })
-export class ListTasksViewComponent implements OnInit {
+export class ListTasksViewComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   public page: number = 1;
@@ -51,7 +51,7 @@ export class ListTasksViewComponent implements OnInit {
   deleteTask(taskId: number): void {
     this.projectService.deleteTask(taskId).subscribe(() => {
       console.log(`Task with ID ${taskId} deleted successfully.`);
-      this.data = [];
+      this.page = 1;
       this.getTasks(this.filterStatus);
     });
   }
@@ -62,7 +62,7 @@ export class ListTasksViewComponent implements OnInit {
     .push(
       this.projectService.getTasks(this.page, status, this.sortDirection).subscribe( {
         next: (res) => {
-          if(this.page === 0) {
+          if(this.page === 1) {
             this.data = res.tasks;
           } else {
             this.data = [...this.data, ...res.tasks];
@@ -79,13 +79,9 @@ export class ListTasksViewComponent implements OnInit {
     );
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-  }
-
   filterByStatus(event: any) {
     this.filterStatus = event.value ? event.value : event;
-    this.data = [];
+    this.page = 1;
     this.getTasks(this.filterStatus);
   }
 
@@ -101,5 +97,9 @@ export class ListTasksViewComponent implements OnInit {
         this.getTasks(this.filterStatus);
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

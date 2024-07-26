@@ -2,12 +2,26 @@
   <div class="head-view">
     <h2>Total de usuários: {{ totalItems }}</h2>
   </div>
+  <div class="user-button">
+    <button mat-button (click)="openRegistrationDialog()">
+      <mat-icon 
+        aria-hidden="false" 
+        aria-label="Deletar tarefa" 
+        fontIcon="add_circle">
+      </mat-icon>
+      Adicionar Usuário
+    </button>
+  </div>
   <div>
     <h2>{{ errorMessage }}</h2>
   </div>
-  <div class="task-list">
-    <div class="div-card" *ngFor="let task of data">
-      <app-info-card [user]="task" (deleteUser)="openConfirmDialog($event)"></app-info-card>
+  <div class="user-list">
+    <div class="div-card" *ngFor="let user of data">
+      <app-info-card 
+        [user]="user" 
+        (deleteUser)="openConfirmDialog($event)"
+        (editUser)="openRegistrationDialog($event)">
+      </app-info-card>
     </div>
   </div>
 </div>

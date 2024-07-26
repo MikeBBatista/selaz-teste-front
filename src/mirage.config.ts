@@ -10,8 +10,8 @@ export function makeServer({ environment = 'development' } = {}) {
     },
 
     seeds(server) {
-      server.create('user', { username: 'admin', password: 'admin123' } as object);
-      server.create('user', { username: 'user', password: 'password' } as object);
+      server.create('user', { username: 'admin', password: 'admin123', email: 'admin@hotmail.com', admin: true } as object);
+      server.create('user', { username: 'user', password: 'password', email: 'user@hotmail.com', admin: false } as object);
       server.create('task', { 
         responsible: 'Mike Barcelos',
         createDate: new Date('2024-07-20'),
@@ -120,6 +120,50 @@ export function makeServer({ environment = 'development' } = {}) {
         }
       });
 
+      this.get('/users', (schema, request) => {
+        const { page = 1, perPage = 10} = request.queryParams;
+        const pageNumber = parseInt(page as string, 10);
+        const perPageNumber = parseInt(perPage as string, 10);
+        const start = (pageNumber - 1) * perPageNumber;
+        const end = start + perPageNumber;
+
+        let users = schema.db['users'];
+        const paginatedUsers = users.slice(start, end);
+        return {
+          users: paginatedUsers,
+          total: users.length,
+        };
+      });
+
+      this.post('/users', (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+        return schema.create('user', attrs);
+      });
+
+      this.put('/users/:id', (schema, request) => {
+        let id = request.params['id'];
+        let attrs = JSON.parse(request.requestBody);
+        let user = schema.find('user', id);
+
+        if (user) {
+          user.update(attrs);
+          return new Response(204, {}, {response: 'Usuário alterado com sucesso!'});
+        } else {
+          return new Response(404, {}, { error: 'User not found' });
+        }
+      });
+
+      this.delete('/users/:id', (schema, request) => {
+        let id = request.params['id'];
+        let user = schema.find('user', id);
+        if (user) {
+          user.destroy();
+          return new Response(204, {}, {});
+        } else {
+          return new Response(404, {}, { error: 'Usuário não encontrada' });
+        }
+      });
+
       this.get('/tasks', (schema, request) => {
         const { page = 1, perPage = 10, status = '', sort = 'asc' } = request.queryParams;
         let statusList: string[] = [];
@@ -151,7 +195,6 @@ export function makeServer({ environment = 'development' } = {}) {
       this.delete('/tasks/:id', (schema, request) => {
         let id = request.params['id'];
         let task = schema.find('task', id);
-        console.log('teste')
         if (task) {
           task.destroy();
           return new Response(204, {}, {});

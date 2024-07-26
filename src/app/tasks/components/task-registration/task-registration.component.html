@@ -1,0 +1,66 @@
+<h1 mat-dialog-title>{{isEditing ? 'Editar Usuário' : 'Cadastro de Usuário'}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title">
+      <mat-error *ngIf="registrationForm.get('title')?.hasError('required')">
+        Título é obrigatório
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="description" rows="4"></textarea>
+      <mat-error *ngIf="registrationForm.get('description')?.hasError('required')">
+        Desrição é obrigatório
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Data de criação</mat-label>
+      <input matInput [matDatepicker]="createDatePicker" formControlName="createDate">
+      <mat-datepicker-toggle matSuffix [for]="createDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #createDatePicker></mat-datepicker>
+      <mat-error *ngIf="registrationForm.get('createDate')?.hasError('required')">
+        Data de criação é obrigatório
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Data limite</mat-label>
+      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+      <mat-error *ngIf="registrationForm.get('endDate')?.hasError('required')">
+        Data limite é obrigatório
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="pending">Pending</mat-option>
+        <mat-option value="completed">Completed</mat-option>
+        <mat-option value="in-progress">In Progress</mat-option>
+      </mat-select>
+      <mat-error *ngIf="registrationForm.get('status')?.hasError('required')">
+        Status é obrigatório
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Responsible</mat-label>
+      <mat-select formControlName="responsible">
+        <mat-option value="person1">Person 1</mat-option>
+        <mat-option value="person2">Person 2</mat-option>
+        <mat-option value="person3">Person 3</mat-option>
+      </mat-select>
+      <mat-error *ngIf="registrationForm.get('responsible')?.hasError('required')">
+        Responsável é obrigatório
+      </mat-error>
+    </mat-form-field>
+  
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</div>

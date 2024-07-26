@@ -17,6 +17,11 @@ const routes: Routes = [
     path: 'task-list',
     loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule),
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-list',
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
+    canActivate: [AuthGuard],
   }
 ];
 

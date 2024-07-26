@@ -9,13 +9,10 @@ import { Task, User } from '../../../models/data-models';
 export class InfoCardComponent {
   @Input() task!: Task;
   @Output() deleteTask: EventEmitter<any> = new EventEmitter();
+  @Output() editTask: EventEmitter<any> = new EventEmitter();
   @Input() user!: User;
   @Output() deleteUser: EventEmitter<any> = new EventEmitter();
- 
-  deleteUserID(userId: number) {
-     this.deleteUser.emit(userId);
-   }
- 
+  @Output() editUser: EventEmitter<any> = new EventEmitter(); 
  
   getFormattedStatus(): string {
      return this.task.status.toUpperCase();
@@ -29,8 +26,20 @@ export class InfoCardComponent {
    
      return `${day}/${month}/${year}`;
    }
+
+   editTaskInfo(task: Task) {
+    this.editTask.emit(task);
+   }
+
+   editUserInfo(user: User) {
+    this.editUser.emit(user);
+   }
  
-   deleteTaskID(taskId: number) {
+   deleteTaskId(taskId: number) {
      this.deleteTask.emit(taskId);
    }
+
+   deleteUserId(userId: number) {
+    this.deleteUser.emit(userId);
+  }
 }

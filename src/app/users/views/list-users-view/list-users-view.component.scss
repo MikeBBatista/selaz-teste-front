@@ -1,0 +1,34 @@
+.view-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .user-list {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 90%;
+  }
+  .div-filters {
+    display: flex;
+    width: 90%;
+    justify-content: end;
+
+    .form-field {
+      margin: 8px;
+    }
+  }
+
+  .user-button {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
+
+  button {
+    font-size: 18px;
+    margin-right: 24px;
+    height: 56px;
+    background-color: #f2f2f2;
+    color: black;
+  }
+}
