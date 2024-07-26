@@ -33,7 +33,7 @@
     <li style="font-family:roboto;">Vincular uma tarefa a um usuário</li>
   </ul>
 
-  <h2>IMPORTANTE: VOCÊ PODE LOGAR NO PROEJTO UTILIZANDO O LOGIN: "admin" e senha: "admin123" PARA LOGAR COMO ADMIN OU login: "user" e senha: "user123" PARA LOGAR COMO USUARIO COMUM.</h2>
+  <h2>IMPORTANTE: VOCÊ PODE LOGAR NO PROJETO UTILIZANDO O LOGIN: "admin" e senha: "admin123" PARA LOGAR COMO ADMIN OU login: "user" e senha: "user123" PARA LOGAR COMO USUARIO COMUM.</h2>
   
   ---
   
@@ -52,6 +52,6 @@
   <h2 style="font-family:roboto;"> Instruções de Instalação :dart:</h2>
      <p align="justify" style="font-family:roboto;">Com o projeto clonado em seu computador, utilize o comando "npm install" na pasta raíz do projeto para que todas as depêndencias do projeto possam ser instaladas.</p>
   <p align="justify" style="font-family:roboto;">Com a instalação dos pacotes completa, e com os requisitos cumpridos, basta utilizar o comando "ng serve" no terminal na raiz do projeto e o mesmo deve rodar sem problemas. Com o projeto rodando, acesse o endereço <a href="http://localhost:4200/">localhost</a>. Caso tudo tenha sido configurado de forma correta, você verá uma tela de login.
-
+<h2>IMPORTANTE: VOCÊ PODE LOGAR NO PROJETO UTILIZANDO O LOGIN: "admin" e senha: "admin123" PARA LOGAR COMO ADMIN OU login: "user" e senha: "user123" PARA LOGAR COMO USUARIO COMUM.</h2>
 </body>
 </html>
