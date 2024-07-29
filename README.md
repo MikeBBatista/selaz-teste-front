@@ -1,7 +1,7 @@
 <html>
 <body>
   
- <h1 align="center"> Exercício com API pública da Marvel</h1>
+ <h1 align="center"> Exercício com lista de tarefas</h1>
   
   ---
   
